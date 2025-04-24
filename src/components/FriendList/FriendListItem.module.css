@@ -1,0 +1,29 @@
+.card {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.name {
+  margin: 0;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 20px;
+  color: black;
+}
+.offline {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: rgb(238, 15, 15);
+}
+.online {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: rgb(34, 226, 17);
+}
