@@ -1,24 +1,48 @@
-import Profile from "./components/Profile/Profile";
-import FriendList from "./components/FriendList/FriendList";
-import TransactionHistory from "./components/TransactionHistory/TransactionHistory";
-
-import userData from "./userData.json";
-import friends from "./friends.json";
-import transactions from "./transactions.json";
+import { useState, useEffect } from "react";
+import Options from "./components/Options/Options";
+import Feedback from "./components/Feedback/Feedback";
+import description from "./description.json";
+import Description from "./components/Description/Description";
+import css from "./App.module.css";
 
 const App = () => {
+  const [feedback, setFeedback] = useState(() => {
+    const saved = localStorage.getItem("feedback");
+    return saved ? JSON.parse(saved) : { good: 0, neutral: 0, bad: 0 };
+  });
+
+  useEffect(() => {
+    localStorage.setItem("feedback", JSON.stringify(feedback));
+  }, [feedback]);
+
+  const handleFeedback = (type) => {
+    if (type === "reset") {
+      setFeedback({ good: 0, neutral: 0, bad: 0 });
+      return;
+    }
+    setFeedback((prev) => ({
+      ...prev,
+      [type]: prev[type] + 1,
+    }));
+  };
+
+  const total = feedback.good + feedback.neutral + feedback.bad;
+
   return (
-    <>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
-      />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />
-    </>
+    <div>
+      <Description title={description.title} text={description.text} />
+      <Options onFeedback={handleFeedback} total={total} />;
+      {total > 0 && (
+        <Feedback
+          good={feedback.good}
+          neutral={feedback.neutral}
+          bad={feedback.bad}
+          total={total}
+          positivePercentage={Math.round((feedback.good / total) * 100)}
+        />
+      )}
+      {total === 0 && <p className={css.noFeedback}>No feedback yet</p>}
+    </div>
   );
 };
 
