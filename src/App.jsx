@@ -3,7 +3,7 @@ import Options from "./components/Options/Options";
 import Feedback from "./components/Feedback/Feedback";
 import description from "./description.json";
 import Description from "./components/Description/Description";
-import css from "./App.module.css";
+import Notification from "./components/Notification/Notification";
 
 const App = () => {
   const [feedback, setFeedback] = useState(() => {
@@ -41,7 +41,7 @@ const App = () => {
           positivePercentage={Math.round((feedback.good / total) * 100)}
         />
       )}
-      {total === 0 && <p className={css.noFeedback}>No feedback yet</p>}
+      {total === 0 && <Notification message="No feedback yet" />}
     </div>
   );
 };
